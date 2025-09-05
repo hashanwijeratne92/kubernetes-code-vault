@@ -1,7 +1,7 @@
 
 # Kubernetes RBAC: PlatformAdmin, AppDev, Auditor
 
-This README documents the steps to create three RBAC personas and how to verify their behavior.
+![App Screenshot](images/13.png)
 
 # Objective
     1. Deploy a local Kubernetes cluster using kind.
