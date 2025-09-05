@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-demo
+  namespace: team-a
+  labels:
+    app: nginx-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-demo
+    spec:
+      # Uncomment if you need a private registry:
+      # imagePullSecrets:
+      #   - name: my-regcred
+      containers:
+        - name: nginx
+          image: nginx:1.25-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+  namespace: team-a
+  labels:
+    app: nginx-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-demo
+  ports:
+    - port: 80
+      targetPort: 80
