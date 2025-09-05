@@ -60,24 +60,28 @@ Create a local cluster
 ``` bash
   kind create cluster --name secops-rbac
 ```
+![App Screenshot](images/1.png)
+
 Verify RBAC enabled
 
 ``` bash
   kubectl api-versions | grep rbac.authorization.k8s.io
 ```
+![App Screenshot](images/2.png)
 
 Create namespaces using namespaces.yaml file
 
 ``` bash
   sudo kubectl apply -f namespaces.yaml
 ```
+![App Screenshot](images/3.png)
 
 Create ServiceSccounts for each role using serviceaccounts.yaml file
 
 ``` bash
   sudo kubectl apply -f serviceaccounts.yaml
 ```
-
+![App Screenshot](images/4.png)
 
 ## RBAC Policy
 
@@ -86,6 +90,7 @@ Check exisitng api resources and used it when creating the RBAC policy.
 ``` bash
   sudo kubectl api-resources
 ```
+![App Screenshot](images/6.png)
 
 AppDev: can modify Deployments in team-a, but cannot access secrets or resources in other namespaces.
 Create Role & RoleBinding using following commands
@@ -94,6 +99,7 @@ Create Role & RoleBinding using following commands
   sudo kubectl apply -f role-appdev-team-a.yaml
   sudo kubectl apply -f sudo kubectl apply -f role-appdev-team-a.yaml
 ```
+![App Screenshot](images/5.png)
 
 PlatformAdmin: can manage cluster, but cannot read secrets.
 Create ClusterRole & ClusterRoleBinding using following commands
@@ -102,6 +108,7 @@ Create ClusterRole & ClusterRoleBinding using following commands
   sudo kubectl apply -f clusterrole-platformadmin.yaml
   sudo kubectl apply -f sudo kubectl apply -f clusterrole-platformadmin.yaml
 ```
+![App Screenshot](images/7.png)
 
 Auditor: can list Pods accross all namespaces, but cannot create or delete resources.
 Create ClusterRole & ClusterRoleBinding using following commands
@@ -110,6 +117,11 @@ Create ClusterRole & ClusterRoleBinding using following commands
   sudo kubectl apply -f clusterrole-auditor.yaml
   sudo kubectl apply -f sudo kubectl apply -f clusterrolebinding-auditor.yaml
 ```
+![App Screenshot](images/9.png)
+
+![App Screenshot](images/10.png)
+
+![App Screenshot](images/110.png)
 
 ## Test Application
 
@@ -120,6 +132,7 @@ Deploy simple nginx app in team-a namespaces
   sudo kubectl get pods -n team-a
   sudo kubectl get services -n team-a
 ```
+![App Screenshot](images/12.png)
 
 ## Access Verification
 
@@ -152,11 +165,8 @@ Above test cases can be run using following script
 ``` bash
   sudo ./verify.sh
 ```
+![App Screenshot](images/11.png)
 
 
-
-
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
 
